@@ -1,24 +1,26 @@
 import logo from './logo.svg';
 import './App.css';
-
+import {Routes,Route} from "react-router-dom";
+import Home from "./Components/Home";
+import All from './Components/All';
+import { TaskProvider } from './context/TaskContext';
+import Complete from './Components/Complete';
+import Incomplete from "./Components/Incomplete";
+import Edit from "./Components/Edit";
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <TaskProvider>
+        <div className='app'>
+          <Home />  
+          <Routes>
+            <Route path="/" element={<All/>}/>
+            <Route path="/all" element={<All/>}/>
+            <Route path="/completed" element={<Complete/>}/>
+            <Route path = "/incomplete" element = {<Incomplete/>} />
+            <Route path = "/edit/:taskId" element = {<Edit/>} />
+          </Routes>
+        </div>
+    </TaskProvider>
   );
 }
 
