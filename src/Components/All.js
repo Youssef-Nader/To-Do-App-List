@@ -9,17 +9,30 @@ function All(){
     
     const myTasks = tasks.map((task)=>{
         return(
-            <div className = "detail" key={task.id}>
+            <div className = {`detail${task.completed ? " task-completed" : ""}`} key={task.id}>
                 <li id={String(task.id)}>
                     {task.title} 
                 </li>
                 <div className = "icons" >
-                    <CheckCircleIcon className="done" style={{
-                        cursor: "pointer",
-                        color: task.completed ? "green" : "white"
-                    }} onClick={()=>{completedTasks(task.id)}}/>  
-                    <Link to = {`/edit/${task.id}`}><CreateOutlinedIcon className="edit" color="primary" style={{cursor:"pointer",border: "1px solid blue",borderRadius : "50%", background:"white"}}/></Link>
-                    <DeleteIcon className="delete" color="error" style={{ cursor:"pointer", border : "1px solid red",borderRadius : "50%", background:"white"}} onClick={()=>{deleteTask(task.id)}} />
+                    <CheckCircleIcon className={`done${task.completed ? " is-complete" : ""}`}
+                    role="button"
+                    tabIndex={0}
+                    aria-pressed={task.completed}
+                    aria-label={task.completed ? `Mark ${task.title} as incomplete` : `Mark ${task.title} as complete`}
+                    onClick={()=>{completedTasks(task.id)}}
+                    onKeyDown={(event)=>{
+                        if(event.key === "Enter" || event.key === " ") {
+                            event.preventDefault();
+                            completedTasks(task.id);
+                        }
+                    }}/>
+                    <Link to = {`/edit/${task.id}`} aria-label={`Edit ${task.title}`}><CreateOutlinedIcon className="edit"/></Link>
+                    <DeleteIcon className="delete" role="button" tabIndex={0} aria-label={`Delete ${task.title}`} onClick={()=>{deleteTask(task.id)}} onKeyDown={(event)=>{
+                        if(event.key === "Enter" || event.key === " ") {
+                            event.preventDefault();
+                            deleteTask(task.id);
+                        }
+                    }} />
                 </div>
             </div>
         )
@@ -27,7 +40,7 @@ function All(){
     return (
         <div className="all">
             <div className="container">
-                {myTasks}
+                {myTasks.length > 0 ? myTasks : <p className="empty-state">No tasks yet. Add your first task above.</p>}
             </div>
         </div>
     )

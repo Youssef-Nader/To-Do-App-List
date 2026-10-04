@@ -12,9 +12,11 @@ export function TaskProvider({children}) {
     useEffect(()=>{
         localStorage.setItem("myTasks",JSON.stringify(tasks));
     },[tasks])
+
+
     // create function for add tasks
     function addTask(input){
-        setTasks([... tasks, {id : Date.now(), title: input, completed: false}]);
+        setTasks([...tasks, {id : Date.now(), title: input, completed: false}]);
     }
 
     // create function for delete tasks
@@ -27,20 +29,19 @@ export function TaskProvider({children}) {
 
     // create function for completed tasks
     function completedTasks(id){
-        const updateTask = tasks.map((task)=>{
+        setTasks((currentTasks) => currentTasks.map((task)=>{
             if(task.id === id){
-                return {...task, completed: true};
+                return {...task, completed: !task.completed};
             }
             return task;
-        });
-        setTasks(updateTask);
+        }));
     }
     
     // create a function to edit on task
     function editTasks(id ,inputEdit){
         const editTask = tasks.map((task)=>{
-            if(task.id == id){
-                return {... task, title : inputEdit };
+            if(String(task.id) === String(id)){
+                return {...task, title : inputEdit };
             }
             return task;
         })

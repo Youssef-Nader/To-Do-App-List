@@ -1,6 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
-import {Routes,Route} from "react-router-dom";
+import { Routes , Route } from "react-router-dom";
 import Home from "./Components/Home";
 import All from './Components/All';
 import { TaskProvider } from './context/TaskContext';
